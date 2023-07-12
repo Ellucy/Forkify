@@ -601,10 +601,12 @@ const renderSpinner = function(parentEl) {
     parentEl.insertAdjacentHTML("afterbegin", markup);
 };
 const showRecipe = async function() {
-    //loading recipe
-    renderSpinner(recipeContainer);
     try {
-        const response = await fetch("https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886");
+        const id = window.location.hash.slice(1);
+        if (!id) return;
+        //loading recipe
+        renderSpinner(recipeContainer);
+        const response = await fetch(`https://forkify-api.herokuapp.com/api/v2/recipes/${id}`);
         const data = await response.json();
         if (!response.ok) throw new Error(`${data.message} (${response.status})`);
         //reformat to get rid of underscores
@@ -715,6 +717,10 @@ const showRecipe = async function() {
     }
 };
 showRecipe();
+[
+    "hashchange",
+    "load"
+].forEach((event)=>window.addEventListener(event, showRecipe));
 
 },{"url:../img/icons.svg":"e1R5V","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ"}],"e1R5V":[function(require,module,exports) {
 module.exports = require("4824003d55a6bbc4").getBundleURL("iTq60") + "icons.35d27858.svg" + "?" + Date.now();
