@@ -39,7 +39,6 @@ export const loadRecipe = async function (id) {
         if (state.bookmarks.some(bookmark => bookmark.id === id))
             state.recipe.bookmarked = true;
         else state.recipe.bookmarked = false;
-
     } catch (err) {
         console.error(`${err} 💥`);
         throw err;
@@ -126,7 +125,7 @@ export const uploadRecipe = async function (newRecipe) {
         const ingredients = Object.entries(newRecipe)
             .filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '')
             .map(ing => {
-                const ingArr = ing[1].split(',').map(el => el.trim());
+                const ingArr = ing[1].split(',').map(el => el.trimStart().trimEnd());
                 if (ingArr.length !== 3) throw new Error('Wrong ingredient format. Please use correct format (amount, unit, ingredient)')
                 const [quantity, unit, description] = ingArr;
 
